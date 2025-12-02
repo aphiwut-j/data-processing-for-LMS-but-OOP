@@ -61,10 +61,8 @@ This will generate the following output files (in the project root):
 2. Merge result files from CANVAS and STARS.
 3. Convert merged scores to Excel, automatically assigning LMS outcome statuses.
 
-## License
-
-Add licensing information as appropriate.
 
 ## Author
 
 Developed by [aphiwut-j](https://github.com/aphiwut-j)
+aphiwut.jan@gmail.com
