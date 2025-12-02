@@ -3,9 +3,9 @@ from mergeFile import FileMerger
 from convertTable import TableConverter
 
 # Book1, csv from STARS
-BOOK1 = r"C:\Users\aphiwut.j\Documents\Learning\resulting processing\Book1.csv"
+BOOK1 = r"path to your CSV from STARS"
 # Marks, csv from CANVAS
-MARKS = r"C:\Users\aphiwut.j\Documents\Learning\resulting processing\2025-11-26T1522_Marks-GHC_25-T5_SIT40521_G-CKM.csv"
+MARKS = r"path to your CSV from CANVAS"
 
 if __name__ == "__main__":
     # 1 — create student_report.xlsx
@@ -16,3 +16,4 @@ if __name__ == "__main__":
 
     # 3 — convert merged scores to Excel with colours
     TableConverter("merged_final_scores_2.csv").load_data().unpivot().apply_outcomes().export()
+
