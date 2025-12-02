@@ -1,5 +1,6 @@
 import tkinter as tk
 from tkinter import filedialog, messagebox
+from tkcalendar import DateEntry
 from dataModelling import DataModeler
 from mergeFile import FileMerger
 from convertTable import TableConverter
@@ -10,10 +11,11 @@ class ProcessingGUI:
     def __init__(self, root):
         self.root = root
         self.root.title("Student Data Processor")
-        self.root.geometry("500x350")
+        self.root.geometry("500x420")  # slightly taller for date picker
 
         self.stars_file = None
         self.canvas_file = None
+        self.finish_date = None
 
         # --- Title ---
         tk.Label(root, text="Student Report Generator", font=("Arial", 16, "bold")).pack(pady=10)
@@ -29,6 +31,21 @@ class ProcessingGUI:
         tk.Button(root, text="Choose CANVAS File", command=self.load_canvas).pack()
         self.canvas_label = tk.Label(root, text="No file selected", fg="gray")
         self.canvas_label.pack(pady=5)
+
+        # --- Date selection ---
+        tk.Label(root, text="Select Finish Date:", font=("Arial", 12)).pack(pady=10)
+        self.date_picker = DateEntry(
+            root,
+            date_pattern="dd/mm/yyyy",
+            width=12,
+            background="darkblue",
+            foreground="white",
+            borderwidth=2
+        )
+        self.date_picker.pack()
+        
+        tk.Label(root, text="(This date will be inserted into the Finish Date column.)", fg="gray")\
+            .pack(pady=3)
 
         # --- Run button ---
         tk.Button(root, text="Run Processing", font=("Arial", 14, "bold"),
@@ -57,6 +74,9 @@ class ProcessingGUI:
             messagebox.showerror("Missing Files", "Please upload BOTH STARS and CANVAS files.")
             return
 
+        # read selected date
+        finish_date = self.date_picker.get()
+
         try:
             # 1 — Student report
             DataModeler(self.stars_file).load_data().export()
@@ -65,8 +85,12 @@ class ProcessingGUI:
             merger = FileMerger(self.canvas_file, self.stars_file)
             merger.load_data().merge().export()
 
-            # 3 — Convert merged CSV to Excel
-            TableConverter("merged_final_scores_2.csv").load_data().unpivot().apply_outcomes().export()
+            # 3 — Convert merged CSV and add finish date
+            TableConverter("merged_final_scores_2.csv") \
+                .load_data() \
+                .unpivot() \
+                .apply_outcomes() \
+                .export(finish_date=finish_date)  # <-- DATE PASSED HERE
 
             messagebox.showinfo(
                 "Success",
