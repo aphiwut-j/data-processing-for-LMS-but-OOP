@@ -52,11 +52,24 @@ class TableConverter:
         self.df_long["Outcome"] = self.df_long["Outcome"].apply(self.convert_outcome)
         return self
 
-    def export(self):
+    # def export(self):
+    #     with pd.ExcelWriter(self.output_excel, engine="openpyxl") as writer:
+    #         self.df.to_excel(writer, "Original", index=False)
+    #         self.df_long.to_excel(writer, "FINAL RESULTS", index=False)
+
+    #     self.apply_colours()
+    #     print(f"✅ File saved with formatting: {self.output_excel}")
+    def export(self, finish_date=None):
+        # Insert Finish Date (dd/mm/yyyy) into df_long
+        if finish_date is not None:
+            self.df_long["Finish Date"] = finish_date
+
+        # Save Excel file
         with pd.ExcelWriter(self.output_excel, engine="openpyxl") as writer:
             self.df.to_excel(writer, "Original", index=False)
             self.df_long.to_excel(writer, "FINAL RESULTS", index=False)
 
+        # Apply colours like before
         self.apply_colours()
         print(f"✅ File saved with formatting: {self.output_excel}")
 
@@ -87,4 +100,5 @@ class TableConverter:
                 cell.fill = gray
 
         wb.save(self.output_excel)
+
 
