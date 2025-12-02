@@ -38,7 +38,13 @@ Install the required Python packages using pip:
 pip install pandas openpyxl
 ```
 
-### 4. **Configure Input Paths**
+### 4.1 **Run GUI files selection**
+There are 2 options to run this script. If you choose this option, you can skip the rest of the options to run this script.
+```bash
+python gui_app.py
+```
+
+### 4.2 **Configure Input Paths**
 Update the following variables in `main.py` to the correct paths for your data CSV files:
 ```python
 BOOK1 = r"Path/to/Book1.csv" # STARS export
